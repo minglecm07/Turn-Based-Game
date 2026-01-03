@@ -113,7 +113,6 @@ def PlayerTurn():
         if player['MP'] >= 2:
             player['MP'] = player['MP'] - 2
             player['H'] = player['H'] + int(((player['Hmax']*.35)//1))
-            
             if player['H'] > player['Hmax']:
                 player['H'] = player['Hmax']
                 print("You healed to max Health")
