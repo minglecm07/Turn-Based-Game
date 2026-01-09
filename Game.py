@@ -8,51 +8,74 @@ elif m.x == 2:
 else:
     player = c.Rouge
 print(f"Your journey is begining young {player.PlayerType}")
-Round = 0
+Round = 1
 def PlayerTurn():
     if player.Stun > 0:
         player.Stun = player.Stun - 1
     else:
-        player['Block'] = 0
+        player.Block = 0
         if player.PlayerType == "Rouge":
             player.Eva = 25
         print("Your Turn\n1:Attack\n2:Special Attack\n3:Heal\n4:Block")
         x = int(input())
         if x == 1:
-            c.player.Damage(enemy)
+            player.Damage(enemy)
         elif x == 2:
-            c.player.SA(enemy)
+            player.SA(enemy)
         elif x == 3:
-            c.player.Heal()
+            player.Heal()
         else:
             player.Block = 1
 def EnemyTurn():
     enemy.Block = 0
-    if player.H < int(((player.Hmax*.20)//1)):
-        c.enemy.Damage(Player)     
-    elif enemy.H < int(((enemy.Hmax*.35)//1)) and enemy.MP >= 2:
-        c.enemy.Heal()
+    if enemy.Stun > 0:
+        enemy.Stun = enemy.Stun-1
     else:
-        x = random.randint(0,3)
-        if x == 0:
-            print("Enemy Blocked\n")
-            enemy['Block'] = 1
-        else:
-            c.enemy.Damage(Player)
+        if enemy.EnemyType == "Skeletion Mage":
+            if enemy.H <= int((enemy.MaxH*.2)//1) and enemy.MP >= 4:
+                enemy.SA(player)
+            elif player.H < int(((player.MaxH*.20)//1)):
+                enemy.Damage(player)     
+            elif enemy.H < int(((enemy.MaxH*.35)//1)) and enemy.MP >= 2:
+                enemy.Heal()
+            else:
+                x = random.randint(0,4)
+                if x == 0:
+                    print("Enemy Blocked\n")
+                    enemy.Block = 1
+                else:
+                    enemy.Damage(player)
+        elif enemy.EnemyType == "Ogre":
+            if enemy.H < int((enemy.H*.5)//1) and enemy.H > 7:
+                enemy.SA(player)
+            else:
+                enemy.Damage(player)
+        elif enemy.EnemyType == "Zombie Dog":
+            if enemy.H < int((enemy.H*.3)//1) and enemy.MP > 0:
+                enemy.SA(Player)
+            else:
+                x = random.randint(0,2)
+                if x == 0:
+                    enemy.Block = 1
+                    print("Enemy Blocked\n")
+                else:
+                    enemy.Damage(player)
 while True:
-    x = random.randint(1,3)
-    if m.x == 1:
+    y = random.randint(1,3)
+    if y == 1:
         enemy = c.Skeleton_Mage
-    elif m.x == 2:
+    elif y == 2:
         enemy = c.Ogre
     else:
         enemy = c.Zombie_Dog
     print(f"You are now facing the {enemy.EnemyType}")
     while player.H>0 and enemy.H>0:
-        print(f"Player Health:{player.H}/{player.Hmax}\nPlayer Mana:{player.MP}/{player.MPmax}\n\nEnemy Health:{enemy.H}/{enemy.Hmax}\nEnemy Mana:{enemy.MP}/{enemy.MPmax}\n")
+        if player.PlayerType == "Warrior":
+            OrgAtt = player.Att
+        print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
         if player.Spe>enemy.Spe:
             PlayerTurn()
-            if player.H<0 or enemy.H<0:
+            if player.H<=0 or enemy.H<=0:
                 continue
             EnemyTurn()
             if player.H <= 0:
@@ -61,7 +84,7 @@ while True:
                         player.Gaurdian = 0
                         player.H = 1
                         print("Your Gaurdian Angel Saved you")
-            print(f"Player Health:{player.H}/{player.Hmax}\nPlayer Mana:{player.MP}/{player.MPmax}\n\nEnemy Health:{enemy.H}/{enemy.Hmax}\nEnemy Mana:{enemy.MP}/{enemy.MPmax}\n")
+            print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
         elif enemy.Spe>player.Spe:
             EnemyTurn()
             if player.H <= 0:
@@ -70,15 +93,15 @@ while True:
                         player.Gaurdian = 0
                         player.H = 1
                         print("Your Gaurdian Angel Saved you")
-            print(f"Player Health:{player.H}/{player.Hmax}\nPlayer Mana:{player.MP}/{player.MPmax}\n\nEnemy Health:{enemy.H}/{enemy.Hmax}\nEnemy Mana:{enemy.MP}/{enemy.MPmax}\n")
-            if player.H<0 or enemy.H<0:
+            print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
+            if player.H<=0 or enemy.H<=0:
                 continue
             PlayerTurn()
         else:
             x = random.randint(0,1)
             if x == 1:
                 PlayerTurn()
-                if player.H<0 or enemy.H<0:
+                if player.H<=0 or enemy.H<=0:
                     continue
                 EnemyTurn()
                 if player.H <= 0:
@@ -87,7 +110,7 @@ while True:
                             player.Gaurdian = 0
                             player.H = 1
                             print("Your Gaurdian Angel Saved you")
-                print(f"Player Health:{player.H}/{player.Hmax}\nPlayer Mana:{player.MP}/{player.MPmax}\n\nEnemy Health:{enemy.H}/{enemy.Hmax}\nEnemy Mana:{enemy.MP}/{enemy.MPmax}\n")
+                print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
             else:
                 EnemyTurn()
                 if player.H <= 0:
@@ -96,8 +119,8 @@ while True:
                             player.Gaurdian = 0
                             player.H = 1
                             print("Your Gaurdian Angel Saved you")
-                print(f"Player Health:{player.H}/{player.Hmax}\nPlayer Mana:{player.MP}/{player.MPmax}\n\nEnemy Health:{enemy.H}/{enemy.Hmax}\nEnemy Mana:{enemy.MP}/{enemy.MPmax}\n")
-                if player.H<0 or enemy.H<0:
+                print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
+                if player.H<=0 or enemy.H<=0:
                     continue
                 PlayerTurn()
     if player.H <= 0:
@@ -105,5 +128,46 @@ while True:
         break
     else:
         Round += 1
-        print("You Win ")
-    print(f"You are now moving on to round {round}")
+    if player.PlayerType == "Warrior":
+        player.Att = OrgAtt
+    if enemy.EnemyType == "Skeletion Mage":
+        x = random.randint(1,4)
+        if x == 1:
+            enemy.MaxH = enemy.MaxH + 2
+        elif x == 2:
+            enemy.MaxMp = enemy.MaxMP + 2
+        elif x == 3:
+            enemy.Att = enemy.Att + 1
+        else:
+            enemy.Def = enemy.Def + 1
+        print("The Skeletion Mage has grown Stronger")
+    elif enemy.EnemyType == "Ogre":
+        x = random.randint(1,3)
+        if x == 1:
+            enemy.MaxH = enemy.MaxH + 3
+        elif x == 2:
+            enemy.Att = enemy.Att + 1
+        else:
+            enemy.Def = enemy.Def + 1
+        print("The Ogre has grown Stronger")
+    else:
+        x = random.randint(1,4)
+        if x == 1:
+            enemy.MaxH = enemy.MaxH + 2
+        elif x == 2:
+            enemy.Spe = enemy.Spe + 1
+        elif x == 3:
+            enemy.Att = enemy.Att + 1
+        else:
+            enemy.Def = enemy.Def + 1
+        print("The Zombie Dog has grown Stronger")
+    enemy.H = enemy.MaxH
+    enemy.MP = enemy.MaxMP
+    print("You Win\n\n")
+    print("1.Will you now Rest(Restore Health) or 2.Meditate (Restore Mana)\n")
+    ans = int(input())
+    if ans == 1:
+        player.H = player.MaxH
+    else:
+        player.MP = player.MaxMP
+    print(f"You are now moving on to round {Round}")
