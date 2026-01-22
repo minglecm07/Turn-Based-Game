@@ -1,6 +1,6 @@
 import random
 import Characters as c
-def Play(number):
+def Play(number, name):
     if number == 1:
         player = c.Warrior
     elif number == 2:
@@ -21,8 +21,8 @@ def Play(number):
         while player.H>0 and enemy.H>0:
             if player.PlayerType == "Warrior":
                 OrgAtt = player.Att
-            print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
             if player.Spe>enemy.Spe:
+                print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
                 PlayerTurn(player, enemy)
                 if player.H<=0 or enemy.H<=0:
                     continue
@@ -33,7 +33,6 @@ def Play(number):
                             player.Gaurdian = 0
                             player.H = 1
                             print("Your Gaurdian Angel Saved you")
-                print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
             elif enemy.Spe>player.Spe:
                 EnemyTurn(player, enemy)
                 if player.H <= 0:
@@ -42,13 +41,14 @@ def Play(number):
                             player.Gaurdian = 0
                             player.H = 1
                             print("Your Gaurdian Angel Saved you")
-                print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
                 if player.H<=0 or enemy.H<=0:
                     continue
+                print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
                 PlayerTurn(player, enemy)
             else:
                 x = random.randint(0,1)
                 if x == 1:
+                    print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
                     PlayerTurn(player, enemy)
                     if player.H<=0 or enemy.H<=0:
                         continue
@@ -59,7 +59,6 @@ def Play(number):
                                 player.Gaurdian = 0
                                 player.H = 1
                                 print("Your Gaurdian Angel Saved you")
-                    print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
                 else:
                     EnemyTurn(player, enemy)
                     if player.H <= 0:
@@ -68,13 +67,20 @@ def Play(number):
                                 player.Gaurdian = 0
                                 player.H = 1
                                 print("Your Gaurdian Angel Saved you")
-                    print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
                     if player.H<=0 or enemy.H<=0:
                         continue
+                    print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
                     PlayerTurn(player, enemy)
         if player.H <= 0:
-            file = open("Leaderboard.txt", 'a')
-            file.write(f"{m.Name} Round:{Round} Character:{player.PlayerType}")
+            if player.PlayerType == "Warrior":
+                file = open("LeaderboardW.txt", 'a')
+                file.write(f"{name} {Round}")
+            elif player.PlayerType == "Mage":
+                file = open("LeaderboardM.txt", 'a')
+                file.write(f"{name} {Round}")
+            else:
+                file = open("LeaderboardR.txt", 'a')
+                file.write(f"{name} {Round}")
             print("You Lose :(")
             break
         else:
@@ -115,10 +121,13 @@ def Play(number):
         enemy.H = enemy.MaxH
         enemy.MP = enemy.MaxMP
         print("You Win\n\n")
-        if Round%3 == 0:
-            Shop()
+        if Round%4 == 0:
+            Shop(player, enemy)
         print("1.Will you now Rest(Restore Health) or 2.Meditate (Restore Mana)\n")
         ans = int(input())
+        while ans !=1 and ans !=2:
+            print("Invald input try again")
+            x = int(input())
         if ans == 1:
             player.H = player.MaxH
         else:
@@ -128,6 +137,9 @@ def Shop(player, enemy):
     print("Along your path to the next battle you come acoss a shop\nAs you walk in the shopkeeper hears of your work killing mosters and offers you one upgrade\n\n")
     print("1.Enhanced Weapon(Attack up)\n2.Enhanced Armor(Defense up)\n3.Growth Potion(Max Health up)\n4.Magic Tomb(Max Mana up)\n5.Lighted Armor(Speed Up)\n6.Holy Book(Resets Guardian Ability)")
     x = int(input())
+    while x !=1 and x !=2 and x !=3 and x !=4 and x !=5 and x!=6:
+        print("Invald input try again")
+        x = int(input())
     if x == 1:
         player.Att = player.Att + 1
     elif x == 2:
@@ -184,6 +196,9 @@ def PlayerTurn(player, enemy):
             player.Eva = 25
         print("Your Turn\n1:Attack\n2:Special Attack\n3:Heal\n4:Block")
         x = int(input())
+        while x !=1 and x !=2 and x !=3 and x !=4:
+            print("Invald input try again")
+            x = int(input())
         if x == 1:
             player.Damage(enemy)
         elif x == 2:

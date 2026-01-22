@@ -58,9 +58,10 @@ class Player:
         else:
             print("Not enough Mana lose your turn")
     def SA(self, EnemyN):
-        if self.PlayerType == "Warrior" and self.MP>=4:
-            self.MP = self.MP - 4
-            damage = (random.randint((self.Att),(self.Att+2)))*2
+        if self.PlayerType == "Warrior":
+            self.MP = multi
+            self.MP = 0
+            damage = ((random.randint((self.Att),(self.Att+3)))*(multi*.65)//1)
             if EnemyN.Block == 1:
                 block = ((int(EnemyN.Def*1.5)//1))
                 block = random.randint((block-1),(block))
@@ -172,11 +173,12 @@ class Enemy:
         self.MP = self.MP - 2
         self.H = self.H + int(((self.MaxH*.4)//1))
         print(f"Enemy healed {int(((self.MaxH*.35)//1))} health")
-
-Warrior = Player(15,15,4,4,5,3,3,5,0,0,"Warrior",1)
-Mage = Player(10,10,10,10,4,4,4,10,0,0,"Mage",1)
-Rouge = Player(8,8,4,4,7,1,8,25,0,0,"Rouge",1)
-Skeleton_Mage = Enemy(15,15,6,6,3,2,3,8,0,0,"Skeletion Mage")
-Ogre = Enemy(20,20,0,0,3,1,0,3,0,0,"Ogre")
-Zombie_Dog = Enemy(7,7,4,4,4,0,7,20,0,0,"Zombie Dog")
+#All stats in order
+#MaxH, H, MaxMP, MP, Att, Def, Spe, Eva, Block, Stun, PlayerType, Gaurdian
+Warrior =       Player(13,13,4, 4, 4,2,3,5,0,0,"Warrior",1)
+Mage =          Player(10,10,10,10,3,3,4,10,0,0,"Mage",1)
+Rouge =         Player(8, 8, 4, 4, 5,1,8,25,0,0,"Rouge",1)
+Skeleton_Mage = Enemy(12, 12,6, 6, 3,1,3,8,0,0,"Skeletion Mage")
+Ogre =          Enemy(17, 17,0, 0, 3,1,0,3,0,0,"Ogre")
+Zombie_Dog =    Enemy(7,  7, 4, 4, 4,0,7,20,0,0,"Zombie Dog")
 
