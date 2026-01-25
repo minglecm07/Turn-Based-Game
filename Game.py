@@ -76,15 +76,15 @@ def Play(number, name):
         if player.H <= 0:
             if player.PlayerType == "Warrior":
                 file = open("LeaderboardW.txt", 'a')
-                file.write(f"{name} {Round}")
+                file.write(f"{name} {Round}\n")
                 resetstats(c.Warrior, c.SetWarrior)
             elif player.PlayerType == "Mage":
                 file = open("LeaderboardM.txt", 'a')
-                file.write(f"{name} {Round}")
+                file.write(f"{name} {Round}\n")
                 resetstats(c.Mage, c.SetMage)
             else:
                 file = open("LeaderboardR.txt", 'a')
-                file.write(f"{name} {Round}")
+                file.write(f"{name} {Round}\n")
                 resetstats(c.Rouge, c.SetRouge)
             resetstats(c.Skeleton_Mage, c.SetSkeleton_Mage)
             resetstats(c.Ogre, c.SetOgre)
