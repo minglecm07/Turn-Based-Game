@@ -25,7 +25,7 @@ def sortscoreboard(file):
     Infile = open(file,'w')
     header = ["Username", "Score"]
     infile.close()
-    Infile.write(f"{header[0]:<10} {header[1]:<15}\n{Names[a]:<10} {Scores[a]:<15}\n{Names[b]:<10} {Scores[b]:<15}\n{Names[c]:<10} {Scores[c]:<15}")
+    Infile.write(f"{header[0]:<10} {header[1]:<15}\n{Names[a]:<10} {Scores[a]:<15}\n{Names[b]:<10} {Scores[b]:<15}\n{Names[c]:<10} {Scores[c]:<15}\n")
 def main():
     sortscoreboard("LeaderboardM.txt")
     sortscoreboard("LeaderboardR.txt")
