@@ -71,52 +71,45 @@ def Play(number, name):
                         continue
                     print(f"Player Health:{player.H}/{player.MaxH}\nPlayer Mana:{player.MP}/{player.MaxMP}\n\nEnemy Health:{enemy.H}/{enemy.MaxH}\nEnemy Mana:{enemy.MP}/{enemy.MaxMP}\n")
                     PlayerTurn(player, enemy)
+        if player.PlayerType == "Warrior":
+            player.Att = OrgAtt
         if player.H <= 0:
             if player.PlayerType == "Warrior":
                 file = open("LeaderboardW.txt", 'a')
                 file.write(f"{name} {Round}")
+                resetstats(c.Warrior, c.SetWarrior)
             elif player.PlayerType == "Mage":
                 file = open("LeaderboardM.txt", 'a')
                 file.write(f"{name} {Round}")
+                resetstats(c.Mage, c.SetMage)
             else:
                 file = open("LeaderboardR.txt", 'a')
                 file.write(f"{name} {Round}")
+                resetstats(c.Rouge, c.SetRouge)
+            resetstats(c.Skeleton_Mage, c.SetSkeleton_Mage)
+            resetstats(c.Ogre, c.SetOgre)
+            resetstats(c.Zombie_Dog, c.SetZombie_Dog)
             print("You Lose :(")
             break
         else:
             Round += 1
-        if player.PlayerType == "Warrior":
-            player.Att = OrgAtt
         if enemy.EnemyType == "Skeletion Mage":
-            x = random.randint(1,4)
+            x = random.randint(1,2)
             if x == 1:
-                enemy.MaxH = enemy.MaxH + 2
+                enemy.MaxH = enemy.MaxH + 1
             elif x == 2:
-                enemy.MaxMp = enemy.MaxMP + 2
-            elif x == 3:
-                enemy.Att = enemy.Att + 1
-            else:
-                enemy.Def = enemy.Def + 1
+                enemy.MaxMp = enemy.MaxMP + 1
             print("The Skeletion Mage has grown Stronger")
         elif enemy.EnemyType == "Ogre":
             x = random.randint(1,3)
-            if x == 1:
-                enemy.MaxH = enemy.MaxH + 3
-            elif x == 2:
-                enemy.Att = enemy.Att + 1
-            else:
-                enemy.Def = enemy.Def + 1
+            enemy.MaxH = enemy.MaxH + 1
             print("The Ogre has grown Stronger")
         else:
-            x = random.randint(1,4)
+            x = random.randint(1,2)
             if x == 1:
-                enemy.MaxH = enemy.MaxH + 2
+                enemy.MaxH = enemy.MaxH + 1
             elif x == 2:
                 enemy.Spe = enemy.Spe + 1
-            elif x == 3:
-                enemy.Att = enemy.Att + 1
-            else:
-                enemy.Def = enemy.Def + 1
             print("The Zombie Dog has grown Stronger")
         enemy.H = enemy.MaxH
         enemy.MP = enemy.MaxMP
@@ -125,6 +118,7 @@ def Play(number, name):
             Shop(player, enemy)
         print("1.Will you now Rest(Restore Health) or 2.Meditate (Restore Mana)\n")
         ans = int(input())
+        y = random.randint(1,3)
         while ans !=1 and ans !=2:
             print("Invald input try again")
             x = int(input())
@@ -135,7 +129,7 @@ def Play(number, name):
         print(f"You are now moving on to round {Round}")
 def Shop(player, enemy):
     print("Along your path to the next battle you come acoss a shop\nAs you walk in the shopkeeper hears of your work killing mosters and offers you one upgrade\n\n")
-    print("1.Enhanced Weapon(Attack up)\n2.Enhanced Armor(Defense up)\n3.Growth Potion(Max Health up)\n4.Magic Tomb(Max Mana up)\n5.Lighted Armor(Speed Up)\n6.Holy Book(Resets Guardian Ability)")
+    print("1.Enhanced Weapon(Attack up)\n2.Enhanced Armor(Defense up)\n3.Growth Potion(Max Health up)\n4.Magic Tomb(Max Mana up)\n5.Lighted Armor(Speed Up)\n6.Holy Book(Resets Last Resort Ability)")
     x = int(input())
     while x !=1 and x !=2 and x !=3 and x !=4 and x !=5 and x!=6:
         print("Invald input try again")
@@ -145,17 +139,17 @@ def Shop(player, enemy):
     elif x == 2:
         player.Def = player.Def +1
     elif x == 3:
-        player.MaxHP = player.MaxHP + 2
-        player.HP = player.HP + 2
+        player.MaxH = player.MaxH + 3
+        player.H = player.H + 3
     elif x == 4:
-        player.MaxMP = player.MaxMP + 1
-        player.MP = player.MP + 1
+        player.MaxMP = player.MaxMP + 2
+        player.MP = player.MP + 2
     elif x == 5:
-        player.Speed = player.Speed + 1
+        player.Spe = player.Spe + 1
     elif x == 6:
         player.Gaurdian = 1
     print("All enemies have also gotten stronger")
-    enemy.EnemyType == "Skeletion Mage"
+    enemy = c.Skeleton_Mage
     x = random.randint(1,4)
     if x == 1:
         enemy.MaxH = enemy.MaxH + 2
@@ -165,7 +159,9 @@ def Shop(player, enemy):
         enemy.Att = enemy.Att + 1
     else:
         enemy.Def = enemy.Def + 1
-    enemy.EnemyType == "Ogre"
+    enemy.H = enemy.MaxH
+    enemy.MP = enemy.MaxMP
+    enemy = c.Ogre
     x = random.randint(1,3)
     if x == 1:
         enemy.MaxH = enemy.MaxH + 3
@@ -173,8 +169,10 @@ def Shop(player, enemy):
         enemy.Att = enemy.Att + 1
     else:
         enemy.Def = enemy.Def + 1
-    enemy.EnemyType == "Zombie Dog"
-    x = random.randint(1,4)
+    enemy.H = enemy.MaxH
+    enemy.MP = enemy.MaxMP
+    enemy = c.Zombie_Dog
+    x = random.randint(2,4)
     if x == 1:
         enemy.MaxH = enemy.MaxH + 2
     elif x == 2:
@@ -183,15 +181,17 @@ def Shop(player, enemy):
         enemy.Att = enemy.Att + 1
     else:
         enemy.Def = enemy.Def + 1
+    enemy.H = enemy.MaxH
+    enemy.MP = enemy.MaxMP
 def PlayerTurn(player, enemy):
     if player.Stun > 0:
         player.Stun = player.Stun - 1
     else:
         player.Block = 0
         if player.PlayerType == "Mage" and player.MP <= 1:
-            player.MP = ((player.MaxMP/2)//1)
+            player.MP = int(((player.MaxMP/2)//1))
             player.Gaurdian = 0
-            print("Your Guardian Angel has given you half your Mana back make the most of it")
+            print("Last Reserves:\nYour Willpower pushes your body beyond its limit gaining half your mana back")
         if player.PlayerType == "Rouge":
             player.Eva = 25
         print("Your Turn\n1:Attack\n2:Special Attack\n3:Heal\n4:Block")
@@ -213,7 +213,7 @@ def EnemyTurn(player, enemy):
         enemy.Stun = enemy.Stun-1
     else:
         if enemy.EnemyType == "Skeletion Mage":
-            if enemy.H <= int((enemy.MaxH*.2)//1) and enemy.MP >= 4:
+            if enemy.H <= int((enemy.MaxH*.3)//1) and enemy.MP >= 4:
                 enemy.SA(player)
             elif player.H < int(((player.MaxH*.20)//1)):
                 enemy.Damage(player)     
@@ -227,13 +227,13 @@ def EnemyTurn(player, enemy):
                 else:
                     enemy.Damage(player)
         elif enemy.EnemyType == "Ogre":
-            if enemy.H < int((enemy.H*.5)//1) and enemy.H > 7:
+            if enemy.H <= int((enemy.MaxH*.5)//1) and enemy.H > 4:
                 enemy.SA(player)
             else:
                 enemy.Damage(player)
         elif enemy.EnemyType == "Zombie Dog":
-            if enemy.H < int((enemy.H*.3)//1) and enemy.MP > 0:
-                enemy.SA(Player)
+            if enemy.H <= int((enemy.MaxH*.3)//1) and enemy.MP > 0:
+                enemy.SA(player)
             else:
                 x = random.randint(0,2)
                 if x == 0:
@@ -241,3 +241,12 @@ def EnemyTurn(player, enemy):
                     print("Enemy Blocked\n")
                 else:
                     enemy.Damage(player)
+def resetstats(char, Org):
+    #Resets stats of Characters
+    char.MaxH = Org.MaxH
+    char.H = Org.H
+    char.MaxMP = Org.MaxMP
+    char.MP = Org.MP
+    char.Att = Org.Att
+    char.Def = Org.Def
+    char.Spe = Org.Spe

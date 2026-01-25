@@ -40,7 +40,7 @@ def main():
         if x == 1:
             print("Enter your username")
             Name = input()
-            print("Choose Chacater:\n1:Warrior:\nSpecializes in high Health and Damage but has lower Defence and Speed\n\nSpecial Move: All IN \nUses 4 Mana does double damage but for the rest of the match damage is cut in half\n\nLast Resort: Guardian Angel: /nWhen the Warrior Health hits zero it is replaced with 1\n\n")
+            print("Choose Chacater:\n1:Warrior:\nSpecializes in high Health and Damage but has lower Defence and Speed\n\nSpecial Move: All IN \nUses 4 Mana does double damage but for the rest of the match damage is cut in half\n\nLast Resort: Guardian Angel: \nWhen the Warrior Health hits zero it is replaced with 1\n\n")
             print("2:Mage\nWell rounded stats with high Mana\n\nSpecial Move: Rock Slam\nUse 2 mana to slam a rock on the enemy stuning them a turn, but dealing only half damage\n\nLast Resort: Last Reserves: \nIf Mana is zero it will increase to half of your max Mana\n\n")
             print("3:Rouge\nExtremely high damage and speed with low defence and health\n\nSpecial Move: Speed Blitz\nUse 2 mana to boost your speed to catch an enemy off guard dealing 25% more damage and doubling your evaision the next turn\n\nLast Resort: Too Fast: \nIf an enemy dodges an attack you will still attack them\n")
             x = int(input())
